@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playing Field</title>
+
+    <style>
+        html, body{
+            width: 100%;
+            height: 100%;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        button {
+            margin: 20px;
+            border-radius: 10px;
+            font-size: 2rem;
+        }
+        #field {
+            width: 400px;
+            height: 400px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .cell {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        
+        }
+        .rowCell {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color:aquamarine;
+        }
+
+        .colCell{
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color:aquamarine;
+        }
+
+        #numRow{
+            display:flex;
+            flex-direction: row;
+        }
+
+        .container{
+            display:flex;
+            flex-direction: column;
+        }
+
+        .s-container{
+            display:flex;
+            flex-direction: row;
+        }
+
+        #lettCol{
+            display:flex;
+            flex-direction: column;
+        }
+
+        .bgblack {
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class = "three-buttons">
+    <button id="generate">Generate</button>
+    <button id="random">Randomize!</button>
+    <button id="reset">Reset</button>
+</div>
+
+<div class="container">
+    <div id="numRow"></div>
+    <div class="s-container">   
+        <div id="field"></div>
+        <div id="lettCol"></div>
+    </div> 
+</div>
+
+<script>
+    let field = document.getElementById("field");
+    let standard = document.getElementById("generate");
+    standard.addEventListener("click", generateField);
+    let random = document.getElementById("random");
+    random.addEventListener("click", makeRandom);
+    let clear = document.getElementById("reset");
+    clear.addEventListener("click", reset);
+    let click = 0;
+    function generateField() {
+        /*
+        Write your code here to generate a field as indicated in the image.
+        For now you don't need to write any CSS. Any necessary classes are already provided!
+        */
+        
+        if (click < 1){
+            click += 1;
+            let field = document.getElementById("field");
+            let numRow = document.getElementById("numRow");
+            let lettCol = document.getElementById("lettCol");
+            let letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+            for (let c = 0; c < 10; c ++) {
+                let colCell = document.createElement("div");
+                colCell.classList.add("colCell");
+                let letter = document.createTextNode(letters[c]);
+                colCell.appendChild(letter);
+                lettCol.appendChild(colCell);    
+            }
+
+            for (let r = 1; r < 11; r ++){
+                let rowCell = document.createElement("div");
+                rowCell.classList.add("rowCell");
+                let number = document.createTextNode(r);
+                rowCell.appendChild(number);
+                numRow.appendChild(rowCell); 
+            }
+
+            for (let i = 1; i < 11; i ++) {
+                for (let y = 1; y <11; y++) {
+                    let square = document.createElement("div");
+                    square.classList.add("cell");
+                    let text = document.createTextNode((i-1) * 10 + y);
+                    square.appendChild(text);
+                    field.appendChild(square);
+                
+                    if (i % 2 !=0 && y % 2 != 0) {
+                        square.classList.add("bgblack");
+                    } else if (i % 2 ==0 && y % 2 == 0) {
+                        square.classList.add("bgblack");
+                    }
+                 }
+            }
+        } else {
+            standard.removeEventListener("click", generateField);
+        }
+
+    }
+    
+
+    function makeRandom() {
+        /*
+        Write your code here to randomize the colors.
+        You could do this for example by making some classes in CSS with different color schemes,
+        and then asigning a random one to each cell.
+        */
+        if (click < 1){
+            click += 1;
+            let field = document.getElementById("field");
+            let numRow = document.getElementById("numRow");
+            let lettCol = document.getElementById("lettCol");
+            let letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+            for (let c = 0; c < 10; c ++) {
+                let colCell = document.createElement("div");
+                colCell.classList.add("colCell");
+                let letter = document.createTextNode(letters[c]);
+                colCell.appendChild(letter);
+                lettCol.appendChild(colCell);    
+            }
+
+            for (let r = 1; r < 11; r ++){
+                let rowCell = document.createElement("div");
+                rowCell.classList.add("rowCell");
+                let number = document.createTextNode(r);
+                rowCell.appendChild(number);
+                numRow.appendChild(rowCell); 
+            }
+
+
+            for (let i = 1; i < 11; i ++) {
+                for (let y= 1; y < 11; y++) {
+                    let square = document.createElement("div");
+                    square.classList.add("cell");
+                    let text = document.createTextNode(letters[i-1] + y);
+                    square.appendChild(text);
+                    field.appendChild(square);
+
+                    let ranNum = Math.random();
+                    if (ranNum >= 0.5) {
+                        square.classList.add("bgblack");
+                    } else {
+                        continue;
+                    }
+                }
+            }
+        }  else {
+            standard.removeEventListener("click", generateField);
+        }  
+    }
+    function reset() {
+        field.innerHTML = "";
+        numRow.innerHTML = "";
+        lettCol.innerHTML = "";
+        standard.addEventListener("click", generateField);
+        click = 0;
+    }
+</script>
+
+</body>
+</html>

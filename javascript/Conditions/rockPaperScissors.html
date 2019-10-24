@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="resources/css/main.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <title>Rock, paper, scissors, ...</title>
+</head>
+
+<body>
+<div class="fiveIcons">        
+    <i class="fas fa-hand-rock"></i>
+    <i class="fas fa-hand-paper"></i>
+    <i class="fas fa-hand-scissors"></i>
+    <i class="fas fa-hand-lizard"></i>
+    <i class="fas fa-hand-spock"></i>   
+</div>   
+
+<div class="mainbody">
+
+<h1>Rock, Paper, Scissors, Lizard, Spock</h1>
+
+<div class="playerNo">
+    <h2>Amount of players</h2>
+    <select name="players" id="players">
+        <option value="1">1 Player</option>
+        <option value="2">2 Players</option>
+    </select>
+</div>
+
+<div class="playboard">
+<div class="player1">
+    <h3 class="player">Player 1</h3>
+    <select name="p1choice" id="p1choice"></select>
+    <p id="result1"></p>
+</div>
+
+<button id="play">Play</button>
+
+<div class="player2">
+    <h3 class="player">Player 2</h3>
+    <select name="p2choice" id="p2choice" disabled></select>
+    <p id="result2"></p>
+</div>
+
+</div>
+</div>
+
+<script>
+    let play = document.getElementById("play"); //"play" is the play button
+        //console.log(typeof play); // object
+    play.addEventListener("click", playGame); //refer to an external function: playGame
+    let players = document.getElementById("players");//"players" is the first button
+    players.addEventListener("change", changeGame); //refer to an changeGame function
+    let p1choice = document.getElementById("p1choice"); //"p1choice" refer to the player1 button
+        //console.log(typeof p1choice);//object
+    let p2choice = document.getElementById("p2choice");
+    let choices = ["rock", "paper", "scissors", "spock", "lizard"]; 
+        //console.log(typeof choices); //object
+    
+
+    for (choice of choices) {    //write the options of player1 button
+        let element = document.createElement("option");
+        element.value = choice;
+        element.innerHTML = choice;
+        p1choice.append(element);
+    }
+
+    for (choice of choices) {
+        let element = document.createElement("option");
+        element.value = choice;
+        element.innerHTML = choice;
+        p2choice.append(element);
+    }
+
+
+    let p1score = 0;
+    let p2score = 0;
+    function playGame(event){
+        let p1value = p1choice.value;
+        let p2value;
+        
+        if (p2choice.disabled === false) {
+            p2value = p2choice.value;
+        }
+        else {
+            p2value = choices[Math.floor(Math.random()*choices.length)];
+            //console.log(p2value);
+        }
+        
+        if (p1value == "rock") {
+            switch(p2value){
+                case "rock":
+                    alert("It's a draw.");
+                    break;
+                case "paper":
+                    alert("Player 2 is the winner!");
+                    p2score += 1;
+                    break;
+                case "scissors":
+                    alert("Player 1 is the winner!");
+                    p1score += 1;
+                    break;
+                case "spock":
+                    alert("Player 2 is the winner!");
+                    p2score +=1;
+                    break;
+                case "lizard":
+                    alert("Player 1 is the winner!");
+                    p1score +=1;
+                    break;
+            }
+        } else if (p1value == "paper") {
+            switch(p2value){
+                case "rock":
+                    alert("Player 1 is the winner!");
+                    p1score += 1;
+                    break;
+                case "paper":
+                    alert("It's a draw.");
+                    break;
+                case "scissors":
+                    alert("Player 2 is the winner!");
+                    p2score += 1;
+                    break;
+                case "spock":
+                    alert("Player 1 is the winner!");
+                    p1score +=1;
+                    break;
+                case "lizard":
+                    alert("Player 2 is the winner!");
+                    p2score +=1;
+                    break;        
+            }
+        } else if (p1value == "scissors") {
+            switch(p2value){
+                case "rock":
+                    alert("Player 2 is the winner!");
+                    p2score += 1;
+                    break;
+                case "paper":
+                    alert("Player 1 is the winner!");
+                    p1score += 1;
+                    break;
+                case "scissors":
+                    alert("It's a draw.");
+                    break;
+                case "spock":
+                    alert("Player 2 is the winner!");
+                    p2score +=1;
+                    break;
+                case "lizard":
+                    alert("Player 1 is the winner!");
+                    p1score +=1;
+                    break;
+            } 
+        } else if (p1value == "spock") {
+            switch(p2value){
+                case "rock":
+                    alert("Player 1 is the winner!");
+                    p1score += 1;
+                    break;
+                case "paper":
+                    alert("Player 2 is the winner!");
+                    p2score += 1;
+                    break;
+                case "scissors":
+                    alert("Player 1 is the winner!");
+                    p1score +=1;
+                    break;
+                case "spock":
+                    alert("It's a draw.");
+                    break;
+                case "lizard":
+                    alert("Player 2 is the winner!");
+                    p2score +=1;
+                    break; 
+            }   
+        } else if (p1value == "lizard") {
+            switch(p2value){
+                case "rock":
+                    alert("Player 2 is the winner!");
+                    p2score += 1;
+                    break;
+                case "paper":
+                    alert("Player 1 is the winner!");
+                    p1score += 1;
+                    break;
+                case "scissors":
+                    alert("Player 2 is the winner!");
+                    p2score +=1;
+                    break;
+                case "spock":
+                    alert("Player 1 is the winner!");
+                    p1score +=1;
+                    break;
+                case "lizard":
+                    alert("It's a draw.");
+                    break; 
+            }   
+        }
+       
+        document.getElementById("result1").innerHTML = "Score: " + p1score; 
+        document.getElementById("result2").innerHTML = "Score: " + p2score;
+    }
+    
+
+    function changeGame(event){
+        if (players.value === "1") {
+            p2choice.disabled = true;
+            p1score = 0;
+            p2score = 0;
+        }
+        else {
+            p2choice.disabled = false;
+            p1score = 0;
+            p2score = 0;
+        }
+    }
+</script>
+</body>
+</html>

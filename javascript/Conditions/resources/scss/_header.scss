@@ -1,0 +1,30 @@
+.fiveIcons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 80%;
+    margin: 0 auto;
+    .fas {
+        font-size: 5rem;  
+    }
+    
+    .fa-hand-rock{
+        color:$rockColor;
+    }
+
+    .fa-hand-paper{
+        color:$paperColor;
+    }
+
+    .fa-hand-scissors{
+        color:$scissorsColor;
+    }
+
+    .fa-hand-spock{
+        color:$spockColor;
+    }
+
+    .fa-hand-lizard{
+        color:$lizardColor;
+    }
+}

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JavaScript Variables</title>
+</head>
+<body>
+    <h1>JavaScript Variables</h1>
+    <h2>var</h2>
+    <p>'var' is an old-school variable declaration.It’s generally not used in modern scripts, but still lurks in the old ones.</p>
+    <script>
+        "use strict";
+        var x = 5;
+        var y = 6;
+        var z = x + y;
+        console.log("The value of z is: " + z);
+    </script>
+    
+    <h2>var or let</h2>
+    <p>1. Variables, declared with var, are either function-wide or global. They are visible through blocks.</p>
+    <script>
+        "use strict";
+        if(true){
+            var test = true;
+        }
+        console.log(test);
+
+       /* if(true){
+            let test1 = true;
+        }
+        console.log(test1);  // Error: test1 is not defined
+        */
+
+        function sayHi() {
+             if (true) {
+             var phrase = "Hello";
+            }
+        console.log(phrase); // works
+        }
+        sayHi();
+        /*
+        console.log(phrase); // Error: phrase is not defined 
+        */
+    </script>
+    <p>2. var declarations are processed at function start.</p>
+
+    <h2>let and const</h2>
+    <p>To declare a constant (unchanging) variable, use 'const' instead of 'let':</p>
+    <script>
+        "use strict";
+        const COLOR_RED = "#F00";
+        const COLOR_BLUE = "#00F";
+        let MyColor = COLOR_BLUE;
+        console.log("My favorite color is:" + " " + MyColor);
+    </script>
+
+    <h2>The difference between console.log() and console.dir()</h2>
+    <p>When you are printing text to the console, they do exactly the same thing.</p>
+    <script>
+        "use strict";
+        console.log("ConsoleLog,hello!");
+        console.dir("ConsoleDir,hello!");
+    </script>
+    <p>The difference comes in when writing out more complicated JavaScript items to the console like objects or arrays.</p>
+    <script>
+            "use strict";
+            let a = ["1", "2", "3", "4", "5"];
+            console.log(a);
+            console.dir(a);
+            console.table(a);
+    </script>
+
+    <h1>Data Types</h1>
+    <h2>Number</h2>
+    <p>The number type represents both integer and floating point numbers.</p>
+    <script>
+        "use strict";
+        let numberPi = 3.14;
+        console.log(numberPi)
+    </script>
+
+    <h2>String</h2>
+    <p>A string in JavaScript must be surrounded by: double quotes, single quotes or backticks.</p>
+    <script>
+        "use strict";
+        let userName = "Jerry";
+        console.log(userName);
+    </script>
+
+    <h2>Boolean</h2>
+    <p>The boolean type has only two values: true and false.</p>
+    <script>
+        "use strict";
+        let isGreater = 4 > 1;
+        console.log(isGreater);
+    </script>
+
+    <h2>Array</h2>
+    <p>An array is a special variable, which can hold more than one value at a time.
+        <br>syntax: var array_name = [item1, item2, ...]; 
+    </p>
+    <p>Accessing an array item by referring to the <b>index number</b>. Array indexes start with 0.</p>
+    <script>
+        "use strict";
+        let languages = ["HTML","CSS","JavaScript"];
+        console.log (languages);
+        console.log (languages[2]);
+    </script>
+
+    <h2>Type Casting</h2>
+    <p>to convert a value from a type to another</p>
+    <p>In general converting to a <b>string</b>: calling the toString() method on any value, or pass any value to the String() global function.</p>
+    <p>Casting to <b>number</b> by using the Number() global function, or unary + operator</p>
+    <p>Any value can be converted to boolean passing it to Boolean()</p>
+    <script>
+        "use strict";
+        let t1 = 10;
+        let t2 = String(t1);
+        let t3 = t1.toString();
+        console.log(t2,t3); // 10 10
+
+        let t4 = false;
+        let t5 = String(t4);
+        let t6 = t4.toString();
+        console.log(t5,t5);   //false false  
+
+        let t7 = " ";
+        let t8 = Number(t7);
+        console.log(t8); //0
+
+        let t9 = true;
+        let t10 = Number(t9);
+        console.log(t10); //1
+
+        let t11 = "10";
+        let t12 = "5";
+        console.log(+t11 + +t12); //15 by using unary + operator 
+
+        console.log(Boolean(t7));
+        console.log(Boolean(t11));
+        console.log(Boolean("0"));
+        console.log(Boolean(0));
+        console.log(Boolean(null));
+        console.log(Boolean(NaN));
+        console.log(Boolean(undefined));
+        console.log(Number("java")); //NaN
+    </script>
+
+
+    <h1>Operators</h1>
+    <h2>Arithmetic Operators</h2>
+    <p>Arithmetic operators are used to perform arithmetic on numbers.</p>
+    <script>
+        "use strict";
+        let vl1 = 5;
+        let vr1 = 2;
+        let rr1 = vl1 % vr1;
+        console.log(rr1);
+
+        let vl2 = 5;
+        let vr2 = 3;
+        let rr2 = vl2 ** vr2;
+        console.log(rr2);
+
+        let counter1 = 2;  //Increment/decrement can only be applied to variables. Trying to use it on a value like 5++ will give an error.
+        counter1++;      //postfix form
+        console.log(counter1);
+
+        let counter2 = 5;
+        counter2--;
+        console.log(counter2);
+
+        let counter3 = 2;
+        let newCounter1 = counter3++; //the prefix form ++counter increments counter and returns the new value
+        console.log(newCounter1);
+
+        let counter4 = 5;
+        let newCounter2 = --counter4; //the postfix form --counter decrements counter but returns the old value
+        console.log(newCounter2);
+
+    </script>
+    <h2>Assignment Operators</h2>
+    <p>Assignment operators assign values to JavaScript variables.</p>
+    <script>
+        "use strict";
+        let a1 = 2 * 2 + 2;
+        console.log(a1);
+
+        let a2 = 3;
+        a2 += 5;
+        a2 *= 5;
+        console.log(a2);
+    </script>
+
+    <h2>Comparison Operators</h2>
+    <p>The comparison operators take simple values (numbers or string) as arguments and evaluate either true or false.</p>
+    <script>
+        "use strict";
+        console.log(2 > 1);
+        console.log(2 == 1);
+        console.log(2 != 1);
+        console.log("Jing" > "Jin");
+        console.log("   2  " == 2);    //true equality operator ==
+        console.log("   2  " === 2);   //false strict equality operator ===
+    </script>
+    
+    <h2>Logical Operator</h2>
+    <p>There are three logical operators in JavaScript: || (OR), && (AND), ! (NOT).</p>
+    
+
+    
+    <h1>Combination of datatypes and operators</h1>
+    <script>
+        "use strict";
+        let ol1 = 5;
+        let or1 = 5;
+        let r1 = ol1 + or1;
+        console.log(r1);
+
+        let ol2 = "Java";
+        let or2 = "Script";
+        let r2 = ol2 + or2;
+        console.log(r2);
+
+        let ol3 = 5;
+        let or3 = "5";
+        let r3 = ol3 + or3;
+        console.log(r3);
+
+        let ol4 = 5;      //note that operations run from left to right
+        let or4 = 5;
+        let om4 = "20";
+        let r4 = ol4 + or4 + om4;
+        console.log(r4);
+
+        let ol5 = "20";
+        let or5 = 5;
+        let om5 = 5;
+        let r5 = ol5 + or5 + om5;
+        console.log(r5);
+
+        let ol6 = 5;       //Other arithmetic operators work only with numbers and always convert their operands to numbers.
+        let or6 = "2";
+        let r6 = ol6 - or6;
+        console.log(r6);
+
+        let ol7 = 5;
+        let or7 = "java"; 
+        let r7 = ol7 * or7;
+        console.log(r7);  //NaN
+
+        let ol8 = 5;
+        let or8 = "3";
+        let r8 = ol8 * or8;
+        console.log(r8);  //15
+
+        let ol9 = 5;
+        let or9 = true;
+        let r9 = ol9 * or9;
+        console.log(r9);  //5
+
+        let ol10 = 5;
+        ol10 += true;
+        console.log(ol10); //6
+
+        //let ol11 = [3 , 4 , 5]
+
+    </script>
+    <table style="width:80%">
+        <tr>
+            <th>Operand 1</th>
+            <th>Operator</th>
+            <th>Operand 2</th>
+            <th>Result</th>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>+</td>
+            <td>5</td>
+            <td>10</td>
+        </tr>
+        <tr>
+            <td>"Java"</td>
+            <td>+</td>
+            <td>"Script"</td>
+            <td>"JavaScript"</td>
+        </tr>   
+        <tr>
+            <td>5</td>
+            <td>+</td>
+            <td>"5"</td>
+            <td>55</td>
+        </tr>
+        <tr>
+            <td>5 + 5</td>
+            <td>+</td>
+            <td>"20"</td>
+            <td>1020</td>
+        </tr>
+        <tr>
+            <td>"20"</td>
+            <td>+</td>
+            <td>5 + 5</td>
+            <td>2055</td>
+        </tr>  
+        <tr>
+            <td>5</td>
+            <td>-</td>
+            <td>"2"</td>
+            <td>3</td>
+        </tr> 
+        <tr>
+            <td>5</td>
+            <td>*</td>
+            <td>"java"</td>
+            <td>NaN</td>
+        </tr> 
+        <tr>
+            <td>5</td>
+            <td>*</td>
+            <td>"3"</td>
+            <td>15</td>
+        </tr> 
+        <tr>
+            <td>5</td>
+            <td>*</td>
+            <td>true</td>
+            <td>5</td>
+        </tr> 
+        <tr>
+            <td>5</td>
+            <td>+=</td>
+            <td>true</td>
+            <td>6</td>
+        </tr>  
+        
+
+    </table>
+</body>
+</html>
