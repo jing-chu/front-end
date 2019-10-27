@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Family</title>
+    <style>
+        .familymember{
+            display:flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+        img{
+            width: 10rem;
+            height:10rem;
+        }
+        button{
+            font-size: 1rem;
+        }
+
+    </style>
+</head>
+<body>
+    <ul id="personInfo">
+    </ul>
+    <section class="familymember">
+        <div id="father">
+        <ul id="fatherInfo"></ul>
+        </div>
+        <div id="mother">
+            <ul id="motherInfo"></ul>
+        </div>
+        <div id="husband">
+            <ul id="husbandInfo"></ul>  
+        </div>
+        <div id="daughter">
+            <ul id = "daughterInfo"></ul>
+        </div>
+    </section>
+</body>
+<script>
+    let person = {
+        Name: "Jing",
+        Age: 36,
+        Gender: "Female",
+        FavoriteFood: "Chips",
+        FavoriteSeries: ["Fleabag","breaking Bad"],
+        FavoriteMovies: [],
+        Single: false
+    };
+
+    function createList(n){
+        for(let i in n){
+            let node = document.createElement("li");
+            let textNode = document.createTextNode(i + ": " + n[i]);
+            node.appendChild(textNode);
+            document.getElementById("personInfo").appendChild(node);         
+        }
+    }
+
+
+    createList(person);
+
+    function FamilyMember(name,age,gender,food,series,movie,single){
+        this.Name = name;
+        this.Age = age;
+        this.Gender = gender;
+        this.FavoriteFood = food;
+        this.FavoriteSeries = series;
+        this.FavoriteMovies = movie;
+        this.Single = single;
+        this.addImg = function (link,name) {
+            let img = document.createElement("img");
+            img.setAttribute("src",link);
+            img.setAttribute("visibility","visible");
+            document.getElementById(name).appendChild(img);
+        }
+         
+        this.addInfo = function (info){
+            let items = {Name:name,Age:age,Gender:gender,FavoriteFood:food,FavoriteSeries:series,FavoriteMovies:movie,Single:single};
+            for(let i in items){
+                let node = document.createElement("li");
+                let textNode = document.createTextNode(i + ": " + items[i]);
+                node.appendChild(textNode);
+                document.getElementById(info).appendChild(node); 
+            }
+        } 
+
+        this.addBtn = function (name,i){
+            let btn = document.createElement("button");
+            let textNode = document.createTextNode("Click Me!");
+            btn.setAttribute("type","button");
+            btn.appendChild(textNode);
+            document.getElementById(name).appendChild(btn);
+            document.getElementById(name).addEventListener("click",function(){
+                if(document.getElementsByTagName("img")[i].style.visibility == "visible"){
+                document.getElementsByTagName("img")[i].style.visibility = "hidden";} else {
+                    document.getElementsByTagName("img")[i].style.visibility = "visible";
+                }
+                });
+               
+        }
+        
+    }
+
+    
+    let myFather = new FamilyMember("Yanghai","65","Male","rice","","",false );
+    myFather.addImg("resources/jingS.jpg","father");
+    myFather.addInfo("fatherInfo");
+    myFather.addBtn("father", 0);
+    let myMother = new FamilyMember("Li","63","Female","noodle","","",false );
+    myMother.addImg("resources/jingS.jpg","mother");
+    myMother.addInfo("motherInfo");
+    myMother.addBtn("mother", 1);
+    let myHusband = new FamilyMember("Jieyi","35","Male","rice","","",false );
+    myHusband.addImg("resources/jingS.jpg","husband");
+    myHusband.addInfo("husbandInfo");
+    myHusband.addBtn("husband", 2);
+    let myDaughter = new FamilyMember("Chu","3","Female","spaghetti","Peppa Pig","",false );
+    myDaughter.addImg("resources/jingS.jpg","daughter");
+    myDaughter.addInfo("daughterInfo");
+    myDaughter.addBtn("daughter", 3);
+       
+   
+    console.log(myFather)
+    
+ 
+
+       
+  
+
+
+</script>
+</html>

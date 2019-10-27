@@ -139,31 +139,64 @@
         document.getElementById("clear").addEventListener("click", clearAll);
     
         let firstOpt = "";
+        let operator = "";
+        let secondOpt = "";
+        let result = "";
         function displayNum(){
-            if (firstOpt == "0") {
-                document.getElementById("calc-preview").innerText = this.innerText;
-                firstOpt = this.innerText;
+            if (operator == "") {
+                if (firstOpt == "0") {
+                    document.getElementById("calc-preview").innerText = this.innerText;
+                    firstOpt = this.innerText;
+                } else {
+                    firstOpt = firstOpt + this.innerText;
+                    document.getElementById("calc-preview").innerText = firstOpt;
+                    console.log(this.innerText);
+                }
             } else {
-                firstOpt = firstOpt + this.innerText;
-                document.getElementById("calc-preview").innerText = firstOpt;
-                console.log(this.innerText);
+                    secondOpt = secondOpt + this.innerText;
+                    document.getElementById("calc-preview").innerText = secondOpt;
+                    console.log(this.innerText);
             }
         }
 
         
         function displayOpt(){
             console.log(this.innerText);
-            document.getElementById("calc-preview").innerText = this.innerText;
+            operator = this.innerText;
+            document.getElementById("calc-preview").innerText = operator;
         }
 
         function clearAll(){
             document.getElementById("calc-preview").innerText = "";
             firstOpt = "";
+            secondOpt = "";
+            operator = "";
             console.log(this.innerText);
         }
 
         function calculate(){
             console.log(this.innerText);
+            switch (operator) {
+                case "+":
+                    result = eval(Number(firstOpt) + Number(secondOpt)); 
+                    break;
+                case "-":
+                    result = eval(firstOpt - secondOpt); 
+                    break;
+                case "*": 
+                    result = eval(firstOpt * secondOpt);
+                    break;
+                case "/":
+                    result = eval(firstOpt / secondOpt);
+                    break;
+                case "%":
+                    result = eval(firstOpt % secondOpt);
+                    break;
+            }
+            document.getElementById("calc-preview").innerText = result;
+            firstOpt = result;
+            secondOpt = "";
+            operator = "";
         }
     
 
