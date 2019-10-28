@@ -73,7 +73,6 @@
         this.addImg = function (link,name) {
             let img = document.createElement("img");
             img.setAttribute("src",link);
-            img.setAttribute("visibility","visible");
             document.getElementById(name).appendChild(img);
         }
          
@@ -98,8 +97,7 @@
                 document.getElementsByTagName("img")[i].style.visibility = "hidden";} else {
                     document.getElementsByTagName("img")[i].style.visibility = "visible";
                 }
-                });
-               
+            });      
         }
         
     }
@@ -117,7 +115,7 @@
     myHusband.addImg("resources/jingS.jpg","husband");
     myHusband.addInfo("husbandInfo");
     myHusband.addBtn("husband", 2);
-    let myDaughter = new FamilyMember("Chu","3","Female","spaghetti","Peppa Pig","",false );
+    let myDaughter = new FamilyMember("Chu","3","Female","spaghetti","Peppa Pig","",true );
     myDaughter.addImg("resources/jingS.jpg","daughter");
     myDaughter.addInfo("daughterInfo");
     myDaughter.addBtn("daughter", 3);

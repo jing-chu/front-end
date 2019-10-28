@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>A Random Quote</title>
+</head>
+<body>
+    <button id="button">Load A Quote</button>
+    <br><br>
+    <h1>A Random Quote</h1>
+    <div id="article">
+        <ul id="quote"></ul>
+    </div>
+</body>
+
+<script>
+    document.getElementById("button").addEventListener("click",loadquote);
+
+    function loadquote(){
+        let xhr = new XMLHttpRequest();
+        document.getElementById("quote").innerHTML = "";
+        xhr.open("GET","https://thatsthespir.it/api",true);
+
+        xhr.onload = function(){
+            if(this.status == 200){
+                let quotes = JSON.parse(this.responseText); //Parse the data with JSON.parse(), and the data becomes a JavaScript object.
+                console.log(quotes);
+                let output = '';
+                output += '<div class="quote">' + 
+                '<ul>' + '<li>Quote: ' + quotes.quote + '</li>' +
+                '<li>Author: ' + quotes.author + '</li>' +
+                '<img src="'+ quotes.photo +'">' +
+                '</ul>' +
+                '</div>';
+                /*for (i in quotes) {
+                    
+                    let node = document.createElement("li");
+                    if (i == "4"){
+                        let img = document.createElement("img");
+                        img.setAttribute("src",quotes.photo);
+                        node.appendChild(img);
+                    } else {
+                    let textNode = document.createTextNode(i + ": " + quotes[i]);
+                    node.appendChild(textNode);
+                    
+                    }
+                    document.getElementById("quote").appendChild(node); 
+                    
+                    
+                }*/
+                document.getElementById("quote").innerHTML = output; 
+                
+            } else if (this.status == 404) {
+                document.getElementById("quote").innerHTML = 'Not Found: 404 Error!'; 
+            } 
+
+
+        }
+         
+        xhr.send();
+    }
+</script>
+</html>
