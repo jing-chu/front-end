@@ -29,6 +29,7 @@
         <li></li>
         <li><img src="" alt="image" id="image"></li>
         <li></li>
+        <li></li>
     </ul>
 
     <ul id="nameLists"></ul>
@@ -45,13 +46,8 @@
         let next = document.getElementById("next");
         let list = document.getElementById("list");
         let nameLists = document.getElementById("nameLists");
-        let pokemon_name;
-        let pokemon_id;
-        let pokemon_moves;
-        let pokemon_abilities;
-        let pokemon_image;
-        let pokemon_weight;
-
+        let pokemon = {};
+        
         
        
         //EventListeners are added to HTML elements.
@@ -102,14 +98,27 @@
                 console.log("Searching for data" + ".".repeat(data))
             }
             else {
-                console.log("Data found!")
-                pokemon_name = data.name;
-                pokemon_id = data.id;
-                pokemon_moves = data.moves.map(x => x.move.name);
-                pokemon_abilities = data.abilities.map(x => x.ability.name);
-                pokemon_image = data.sprites.front_default;
-                pokemon_weight = data.weight;
-                //console.log(pokemon_name, pokemon_id);
+                console.log("Data found!");
+                pokemon = {
+                pokemon_name: data.name,
+                pokemon_id: data.id,
+                pokemon_moves: data.moves.map(x => x.move.name),
+                pokemon_abilities: data.abilities.map(x => x.ability.name),
+                pokemon_image: data.sprites.front_default,
+                pokemon_weight: data.weight,
+                two_random_moves: function() {
+                    let random_moves = [];
+                    for(let i=0; i<2; i++){
+                        random_moves[i] = pokemon.pokemon_moves[Math.floor(Math.random() * pokemon.pokemon_moves.length)];
+                        //console.log("random number:" + Math.floor(Math.random() * pokemon.pokemon_moves.length));
+                        //console.log(random_moves);
+                    }
+                    return random_moves;
+                }
+
+                }
+                console.log(pokemon);
+                //console.log("random number:" + Math.floor(Math.random() * pokemon.pokemon_moves.length));
                 DoThingsWithTheDom();
             }
         }
@@ -136,12 +145,12 @@
         }
         //Function that you can call to see the current pokemon's information
         function LogPokeData() {
-            console.log("Name: " + pokemon_name
-            + "\n" + "ID: " + pokemon_id
-            + "\n" + "Moves:", pokemon_moves
-            , "\n" + "Abilities:", pokemon_abilities
-            , "\n" + "Image URL: " + pokemon_image
-            + "\n" + "Weight: " + pokemon_weight);
+            console.log("Name: " + pokemon.pokemon_name
+            + "\n" + "ID: " + pokemon.pokemon_id
+            + "\n" + "Moves:", pokemon.pokemon_moves
+            , "\n" + "Abilities:", pokemon.pokemon_abilities
+            , "\n" + "Image URL: " + pokemon.pokemon_image
+            + "\n" + "Weight: " + pokemon.pokemon_weight);
         }
         /*==================================================================================================
         ======================================== Magic Ends Here! ==========================================
@@ -161,25 +170,15 @@
             But you can also generate the HTML with document.createElement().
             */
 
-            let text = '{Name: ' + this.Name +
-                        ', ID: ' + this.ID +
-                        ', Moves: ' + this.Moves +
-                        ', Abilities: ' + this. Abilities +
-                        ', Image: ' + this.Image +
-                        ', Weight: ' + this. Weight +
-                        ', TwoRandom: ' + 'function(){}' +
-                        ', SmallParagraph' + 'function(){}' +
-                        '};'
 
-            let pokemon = JSON.parse(text);
-            
 
-            document.getElementById("list").getElementsByTagName("li")[0].innerHTML = pokemon_name; 
-            document.getElementById("list").getElementsByTagName("li")[1].innerHTML = pokemon_id;
-            document.getElementById("list").getElementsByTagName("li")[2].innerHTML = pokemon_moves;
-            document.getElementById("list").getElementsByTagName("li")[3].innerHTML = pokemon_abilities;
-            document.getElementById("image").src = pokemon_image;
-            document.getElementById("list").getElementsByTagName("li")[5].innerHTML = pokemon_weight;
+            document.getElementById("list").getElementsByTagName("li")[0].innerHTML = pokemon.pokemon_name; 
+            document.getElementById("list").getElementsByTagName("li")[1].innerHTML = pokemon.pokemon_id;
+            document.getElementById("list").getElementsByTagName("li")[2].innerHTML = pokemon.pokemon_moves;
+            document.getElementById("list").getElementsByTagName("li")[3].innerHTML = pokemon.pokemon_abilities;
+            document.getElementById("image").src = pokemon.pokemon_image;
+            document.getElementById("list").getElementsByTagName("li")[5].innerHTML = pokemon.pokemon_weight;
+            document.getElementById("list").getElementsByTagName("li")[6].innerHTML = "Two random moves are: " + pokemon.two_random_moves();
             LogPokeData();
         }
        
