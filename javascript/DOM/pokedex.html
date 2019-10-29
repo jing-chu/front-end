@@ -160,6 +160,20 @@
             You can do this by placing empty tags in your HTML, and the assigning their content with JS.
             But you can also generate the HTML with document.createElement().
             */
+
+            let text = '{Name: ' + this.Name +
+                        ', ID: ' + this.ID +
+                        ', Moves: ' + this.Moves +
+                        ', Abilities: ' + this. Abilities +
+                        ', Image: ' + this.Image +
+                        ', Weight: ' + this. Weight +
+                        ', TwoRandom: ' + 'function(){}' +
+                        ', SmallParagraph' + 'function(){}' +
+                        '};'
+
+            let pokemon = JSON.parse(text);
+            
+
             document.getElementById("list").getElementsByTagName("li")[0].innerHTML = pokemon_name; 
             document.getElementById("list").getElementsByTagName("li")[1].innerHTML = pokemon_id;
             document.getElementById("list").getElementsByTagName("li")[2].innerHTML = pokemon_moves;

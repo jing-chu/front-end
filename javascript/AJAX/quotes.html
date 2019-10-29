@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>A Random Quote</title>
+    <link rel="stylesheet" href="resources/main.css">
 </head>
 <body>
     <button id="button">Load A Quote</button>
@@ -22,34 +23,67 @@
         let xhr = new XMLHttpRequest();
         document.getElementById("quote").innerHTML = "";
         xhr.open("GET","https://thatsthespir.it/api",true);
-
         xhr.onload = function(){
             if(this.status == 200){
                 let quotes = JSON.parse(this.responseText); //Parse the data with JSON.parse(), and the data becomes a JavaScript object.
-                console.log(quotes);
+                //console.log(quotes);
                 let output = '';
-                output += '<div class="quote">' + 
-                '<ul>' + '<li>Quote: ' + quotes.quote + '</li>' +
-                '<li>Author: ' + quotes.author + '</li>' +
-                '<img src="'+ quotes.photo +'">' +
-                '</ul>' +
-                '</div>';
-                /*for (i in quotes) {
-                    
-                    let node = document.createElement("li");
-                    if (i == "4"){
-                        let img = document.createElement("img");
-                        img.setAttribute("src",quotes.photo);
-                        node.appendChild(img);
+                if (quotes.photo != ""){
+                    output += '<div class="quote">' + 
+                    '<ul>' +
+                    '<li>Quote: ' + quotes.quote + '</li>' +
+                    '<li>Author: ' + quotes.author + '</li>' +
+                    '<img class="authorImg" src="'+ quotes.photo +'">' +
+                    '</ul>' +
+                    '</div>';
+                } else {
+                    let rickMorty = new XMLHttpRequest();
+                    let randomNum = Math.floor(Math.random() * 2);
+                    console.log("Random API:" + randomNum);
+                    if (randomNum == 0) {
+                        rickMorty.open("GET","https://api.thecatapi.com/v1/images/search",true);
+                        rickMorty.onload = function(){
+                            if(this.status == 200){
+                                let morty = JSON.parse(this.responseText);
+                                console.log(morty);
+                                console.log(morty[0].url);
+                                console.log(quotes.quote);
+                                output += '<div class="quote">' + 
+                                '<ul>' +
+                                '<li>Quote: ' + quotes.quote + '</li>' +
+                                '<li>Author: ' + quotes.author + '</li>' +
+                                '<img class="authorImg" src="'+ morty[0].url +'">' +
+                                '</ul>' +
+                                '</div>';
+                           }
+                           document.getElementById("quote").innerHTML = output; 
+                        }
+                       
                     } else {
-                    let textNode = document.createTextNode(i + ": " + quotes[i]);
-                    node.appendChild(textNode);
-                    
+                        rickMorty.open("GET","https://rickandmortyapi.com/api/character/",true);
+                        rickMorty.onload = function(){
+                            if(this.status == 200){
+                                let morty = JSON.parse(this.responseText);
+                                console.log(morty);
+                                console.log(morty.results[Math.floor(Math.random() * 20)].image);
+                                console.log(quotes.quote);
+                                output += '<div class="quote">' + 
+                                '<ul>' +
+                                '<li>Quote: ' + quotes.quote + '</li>' +
+                                '<li>Author: ' + quotes.author + '</li>' +
+                                '<img class="authorImg" src="'+ morty.results[Math.floor(Math.random() * 20)].image +'">' +
+                                '</ul>' +
+                                '</div>';
+                                console.log("Random image in RickandNorty:" + Math.floor(Math.random() * 10));
+                           }
+                           document.getElementById("quote").innerHTML = output; 
+                        }
+                        
                     }
-                    document.getElementById("quote").appendChild(node); 
+                       
                     
-                    
-                }*/
+                    rickMorty.send();
+                }
                 document.getElementById("quote").innerHTML = output; 
                 
             } else if (this.status == 404) {
