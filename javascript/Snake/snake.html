@@ -15,7 +15,7 @@
             font-size: 1rem;
         }
 
-        .player {
+        #player {
             display:flex;
             flex-direction: column;
             
@@ -48,7 +48,7 @@
         </div>
         <canvas id="gameCanvas" width="300" height="300" ></canvas>
         <br>
-        <div class = "player">            
+        <div id = "player">            
             <label for="selectColor">Choose the color of the snake:</label>
             <select id="selectColor">
                 <option value="green">Green</option>
@@ -63,6 +63,9 @@
                 <option value="Mario">Mario</option>
             </select>
             <input type="button" id="myBtn" onclick="playGame()" value="Play">
+            <ol id = "scoreList">
+                
+            </ol>
         </div>
     </div>
     <script>
@@ -79,15 +82,30 @@
         let dy = 0;
         let dx = 10;
         let score = 0;
-        let scores =[];
+       
+        let users = [];
+        let user = document.getElementById("selectUser").value;
+        let currentUser="";
         let round = 0;
         let time = 250;
-        let timer
+        let timer;
+        let maxScore = 0;
+        let info = {}
+        let colors = document.getElementById("selectColor").value;
+        let selectColor = document.getElementById("selectColor");   
+        selectColor.addEventListener("input", function(){ 
+            colors = document.getElementById("selectColor").value; }); 
+           
+        let selectUser = document.getElementById("selectUser");
+        selectUser.addEventListener("input", function(){ 
+            user = document.getElementById("selectUser").value; 
+            console.log(user)});
            
 
-        function drawSnakePart(snakePart) { 
-        let colors = document.getElementById("selectColor").value; 
-        let grd = ctx.createLinearGradient(snake[0].x,snake[0].y,snake[snake.length-1].x,snake[snake.length-1].y);   
+
+        function drawSnakePart(snakePart) {             
+            let grd = ctx.createLinearGradient(
+            snake[0].x,snake[0].y,snake[snake.length-1].x,snake[snake.length-1].y);   
             switch(colors){
                 case "blue":
                     grd.addColorStop(0, "blue");
@@ -115,7 +133,7 @@
         function drawSnake() {            
             snake.forEach(drawSnakePart);
         }
- 
+
         function changeDirection(event) {             
             const LEFT_KEY = 37;  
             const RIGHT_KEY = 39;  
@@ -150,7 +168,7 @@
             }
         }
 
-        
+
         function clearCanvas() {
             ctx.fillStyle = "white";  
             ctx.strokeStyle = "black";
@@ -167,6 +185,12 @@
                 createFood();
                 score ++;
                 document.getElementById("score").innerHTML = score;
+                if(score > maxScore){
+                    maxScore = score;
+                    document.getElementById("scores").innerHTML =  maxScore;
+                    info[user] = maxScore;
+                }
+
                 time = time * 0.8;
                 clearInterval(timer);
                 main();
@@ -188,8 +212,8 @@
                 if (foodIsOnSnake)      
                 createFood();});
             drawFood(foodX,foodY);
-        
         }
+
         function drawFood() { 
             ctx.fillStyle = 'red'; 
             ctx.strokestyle = 'darkred'; 
@@ -222,6 +246,7 @@
         }
 
         function main() {
+                    
                     timer = setInterval(function onTick() {                    
                     clearCanvas();    
                     drawFood();    
@@ -236,31 +261,52 @@
             }
 
         function playGame(){ 
-            if(round >= 1){                                 
-                round++;
-                snake = [{x: 150, y: 150},  
+            document.addEventListener("keydown", changeDirection); 
+            clearInterval(timer);
+            snake = [{x: 150, y: 150},  
                     {x: 140, y: 150}, 
                     {x: 130, y: 150},  
                     {x: 120, y: 150},  
                     {x: 110, y: 150}];
-                time = 250;  
-                clearInterval(timer);                              
-                document.getElementById("score").innerHTML = "0";   
-            } else {
-                round++;
-                drawSnake();
-                createFood();     
-            }
-            scores.push(score); 
-            console.log(score);
-            document.getElementById("name").innerHTML = document.getElementById("selectUser").value + " -  "; 
-            document.getElementById("scores").innerHTML = Math.max.apply(null, scores);
-            console.log(scores);
-            score = 0;
+            dx = 10;
+            dy =0;
+            time = 250;    
+            drawSnake();
+            createFood();
             main();
+            score = 0;
+            document.getElementById("score").innerHTML = score; 
+            document.getElementById("name").innerHTML = document.getElementById("selectUser").value + " -  ";
+            
+            if (user != currentUser) {                                                            
+                maxScore = 0;
+                    
+                document.getElementById("scores").innerHTML =  maxScore;
+                currentUser = user; 
+                console.log(currentUser);
+                console.log(user);
+                console.log(maxScore);     
+            }
+            info[user] = maxScore;
+            console.log(info);
+            console.log(Object.keys(info).length) 
+            if(Object.keys(info).length==4){
+                    let sortable =[];
+                    for (let user in info){
+                        sortable.push([user,info[user]]);
+                    } 
+                    sortable.sort(function(a,b){
+                        return b[1] - a[1];
+                    });
+                    for (let i = 0; i <=3; i++ ) {
+                        let li = document.createElement("li");
+                        document.getElementById("scoreList").appendChild(li);
+                        li.innerHTML = sortable[i];
+                    }                                                                                                                                                                                 
+                } 
+            
         }
-    
-     document.addEventListener("keydown", changeDirection);
+        
 
     </script>
 </body>
