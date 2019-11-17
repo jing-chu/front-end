@@ -18,7 +18,6 @@
         #player {
             display:flex;
             flex-direction: column;
-            
         }
 
         input[type=button]{
@@ -28,9 +27,10 @@
             
         }
 
-        #selectColor,#selectUser{
+        #selectColor,#selectUser,#selectLevel,#selectBgcolor{
             width:9rem;
-            font-size: 1rem;
+            font-size: 1rem;    
+            margin-bottom: 5px;
         }
        
     </style>
@@ -62,10 +62,20 @@
                 <option value="Donkey Kong">Donkey Kong</option>
                 <option value="Mario">Mario</option>
             </select>
+            <label for="selectLevel">Select difficulty:</label>
+            <select id="selectLevel">
+                <option value="medium">Medium</option>
+                <option value="easy">Easy</option>                
+                <option value="hard">Hard</option>
+            </select>
+            <label for="selectBgcolor">Select background color:</label>
+            <select id="selectBgcolor">
+                <option value="white">White</option>
+                <option value="black">Black</option>                
+                <option value="gray">Gray</option>
+            </select>
             <input type="button" id="myBtn" onclick="playGame()" value="Play">
-            <ol id = "scoreList">
-                
-            </ol>
+            <ol id = "scoreList"></ol>
         </div>
     </div>
     <script>
@@ -81,26 +91,36 @@
         let foodY;
         let dy = 0;
         let dx = 10;
-        let score = 0;
-       
-        let users = [];
-        let user = document.getElementById("selectUser").value;
+        let score = 0;       
+        let users = [];       
         let currentUser="";
         let round = 0;
-        let time = 250;
+        let time;
         let timer;
         let maxScore = 0;
         let info = {}
+        let user = document.getElementById("selectUser").value;
+        let level = document.getElementById("selectLevel").value;
         let colors = document.getElementById("selectColor").value;
+        let bgcolor = document.getElementById("selectBgcolor").value;
+
         let selectColor = document.getElementById("selectColor");   
         selectColor.addEventListener("input", function(){ 
-            colors = document.getElementById("selectColor").value; }); 
+            colors = document.getElementById("selectColor").value;}); 
            
         let selectUser = document.getElementById("selectUser");
         selectUser.addEventListener("input", function(){ 
             user = document.getElementById("selectUser").value; 
             console.log(user)});
            
+        let selectLevel = document.getElementById("selectLevel");
+        selectLevel.addEventListener("input", function(){ 
+            level = document.getElementById("selectLevel").value;});
+
+        let selectBgcolor = document.getElementById("selectBgcolor");
+        selectBgcolor.addEventListener("input", function(){ 
+            bgcolor = document.getElementById("selectBgcolor").value;
+            clearCanvas(); });
 
 
         function drawSnakePart(snakePart) {             
@@ -130,7 +150,7 @@
             
         }
 
-        function drawSnake() {            
+        function drawSnake() {        
             snake.forEach(drawSnakePart);
         }
 
@@ -170,35 +190,33 @@
 
 
         function clearCanvas() {
-            ctx.fillStyle = "white";  
+            ctx.fillStyle = bgcolor;  
             ctx.strokeStyle = "black";
             ctx.fillRect(0, 0, canvas.width, canvas.height);  
             ctx.strokeRect(0, 0, canvas.width, canvas.height);
+            
         }
         
-        function advanceSnake() {
-            
+        function advanceSnake() {        
             const head = {x: snake[0].x + dx, y: snake[0].y + dy};           
-            snake.unshift(head);
-            
+            snake.unshift(head);            
             if(snake[0].x == foodX && snake[0].y == foodY) {
                 createFood();
                 score ++;
-                document.getElementById("score").innerHTML = score;
+                document.getElementById("score").innerHTML =  " " + score;
                 if(score > maxScore){
                     maxScore = score;
-                    document.getElementById("scores").innerHTML =  maxScore;
+                    document.getElementById("scores").innerHTML =   " " + maxScore;
                     info[user] = maxScore;
                 }
-
                 time = time * 0.8;
+                console.log(time);
                 clearInterval(timer);
                 main();
             } else {
                 snake.pop();
             }
         } 
-
 
         function randomTen(min, max) {  
             return Math.round((Math.random() * (max-min) + min) / 10) * 10;
@@ -224,9 +242,9 @@
         function didGameEnd() {  
             for (let i = 4; i < snake.length; i++) {    
                 const didCollide = snake[i].x === snake[0].x && snake[i].y === snake[0].y
-                if (didCollide) return true  
+                if (didCollide) return true}  
             } 
-        }        
+               
 
         function collideWalls(){
             if(snake[0].x >= gameCanvas.width){  //hitRightWall
@@ -245,23 +263,40 @@
             
         }
 
-        function main() {
-                    
-                    timer = setInterval(function onTick() {                    
-                    clearCanvas();    
-                    drawFood();    
-                    advanceSnake(); 
-                    drawSnake()   
-                    if (didGameEnd()) {
-                        clearInterval(timer);
-                    } else {
-                        collideWalls();
-                    }                
-                }, time);
-            }
+
+        function chooseLevel(){
+            switch(level){
+                case "easy":
+                    time = 350;
+                    break;
+                case "hard":
+                    time = 150;
+                    break;
+                default:
+                    time = 250;
+            }          
+        }
+
+        function main() {            
+            timer = setInterval(function onTick() {                    
+            clearCanvas();    
+            drawFood();    
+            advanceSnake(); 
+            drawSnake()   
+            if (didGameEnd()) {
+                clearInterval(timer);
+                alert("Game over!");
+                clearCanvas();
+            } else {
+                collideWalls();
+            }                
+            }, time);
+        }
 
         function playGame(){ 
             document.addEventListener("keydown", changeDirection); 
+            chooseLevel();
+            console.log(time);
             clearInterval(timer);
             snake = [{x: 150, y: 150},  
                     {x: 140, y: 150}, 
@@ -269,19 +304,17 @@
                     {x: 120, y: 150},  
                     {x: 110, y: 150}];
             dx = 10;
-            dy =0;
-            time = 250;    
+            dy =0;  
             drawSnake();
             createFood();
             main();
             score = 0;
-            document.getElementById("score").innerHTML = score; 
-            document.getElementById("name").innerHTML = document.getElementById("selectUser").value + " -  ";
-            
+            document.getElementById("score").innerHTML =  " " + score; 
+            document.getElementById("name").innerHTML = document.getElementById("selectUser").value + " " + " - " + " ";            
             if (user != currentUser) {                                                            
-                maxScore = 0;
-                    
-                document.getElementById("scores").innerHTML =  maxScore;
+                chooseLevel();
+                maxScore = 0;        
+                document.getElementById("scores").innerHTML =   " " + maxScore;
                 currentUser = user; 
                 console.log(currentUser);
                 console.log(user);
@@ -307,7 +340,7 @@
             
         }
         
-
+        
     </script>
 </body>
 </html>
